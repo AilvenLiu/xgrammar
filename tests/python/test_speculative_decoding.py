@@ -42,22 +42,13 @@ def compiled_grammar():
 
 
 def _run_traverse(compiled_grammar, tree, **traverse_kwargs):
-    """Run _traverse_draft_tree on a tree and return (result, bitmask).
-
-    Extra keyword arguments (e.g. time_threshold) are forwarded to
-    _traverse_draft_tree.
-    """
+    """Run traverse_draft_tree on a tree and return (result, bitmask)."""
     retrieve_next_token, retrieve_next_sibling, draft_tokens = tree
     num_nodes = retrieve_next_token.shape[0]
     matcher = xgr.GrammarMatcher(compiled_grammar)
     bitmask = allocate_token_bitmask(num_nodes, VOCAB_SIZE)
-    result = _traverse_draft_tree(
-        retrieve_next_token,
-        retrieve_next_sibling,
-        draft_tokens,
-        matcher,
-        bitmask,
-        **traverse_kwargs,
+    result = matcher.traverse_draft_tree(
+        retrieve_next_token, retrieve_next_sibling, draft_tokens, bitmask, **traverse_kwargs
     )
     return result, bitmask
 
@@ -66,24 +57,38 @@ def _run_traverse(compiled_grammar, tree, **traverse_kwargs):
 
 
 def test_traverse_draft_tree_linear(compiled_grammar):
-    """Test _traverse_draft_tree with a simple linear tree structure."""
+    """Test traverse_draft_tree with a simple linear tree structure."""
     result, bitmask = _run_traverse(compiled_grammar, LINEAR_TREE)
     assert result is True
     assert bitmask[0].any(), "First position bitmask should be non-zero"
 
 
 def test_traverse_draft_tree_with_siblings(compiled_grammar):
-    """Test _traverse_draft_tree with a tree that has sibling nodes."""
+    """Test traverse_draft_tree with a tree that has sibling nodes."""
     result, bitmask = _run_traverse(compiled_grammar, SIBLING_TREE)
     assert result is True
     assert bitmask[0].any(), "Root position bitmask should be non-zero"
+
+
+def test_old_traverse_draft_tree(compiled_grammar):
+    """Test the backward-compatible testing wrapper."""
+    retrieve_next_token, retrieve_next_sibling, draft_tokens = LINEAR_TREE
+    matcher = xgr.GrammarMatcher(compiled_grammar)
+    bitmask = allocate_token_bitmask(retrieve_next_token.shape[0], VOCAB_SIZE)
+
+    result = _traverse_draft_tree(
+        retrieve_next_token, retrieve_next_sibling, draft_tokens, matcher, bitmask
+    )
+
+    assert result is True
+    assert bitmask[0].any(), "First position bitmask should be non-zero"
 
 
 # ── Shape / dtype validation ─────────────────────────────────────────────────
 
 
 def test_traverse_draft_tree_shape_assertion(compiled_grammar):
-    """Test that _traverse_draft_tree raises RuntimeError for mismatched shapes/dtypes."""
+    """Test that traverse_draft_tree raises RuntimeError for mismatched shapes/dtypes."""
     matcher = xgr.GrammarMatcher(compiled_grammar)
     retrieve_next_token = torch.tensor([1, 2, -1], dtype=torch.int64)
     draft_tokens = torch.tensor([3, 6, 4], dtype=torch.int64)
@@ -91,21 +96,16 @@ def test_traverse_draft_tree_shape_assertion(compiled_grammar):
 
     # Wrong shape for retrieve_next_sibling
     with pytest.raises(RuntimeError):
-        _traverse_draft_tree(
-            retrieve_next_token,
-            torch.tensor([-1, -1], dtype=torch.int64),
-            draft_tokens,
-            matcher,
-            bitmask,
+        matcher.traverse_draft_tree(
+            retrieve_next_token, torch.tensor([-1, -1], dtype=torch.int64), draft_tokens, bitmask
         )
 
     # Wrong dtype for retrieve_next_sibling
     with pytest.raises(RuntimeError):
-        _traverse_draft_tree(
+        matcher.traverse_draft_tree(
             retrieve_next_token,
             torch.tensor([-1, -1, -1], dtype=torch.int32),
             draft_tokens,
-            matcher,
             bitmask,
         )
 
