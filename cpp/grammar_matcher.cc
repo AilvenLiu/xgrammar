@@ -46,48 +46,6 @@ void ClearTokenBitmaskRow(int32_t* bitmask_data, int32_t bitmask_size, int32_t p
   std::fill_n(bitmask_data + position * bitmask_size, bitmask_size, 0);
 }
 
-void ClearDraftTreeSiblingChain(
-    int32_t current_position,
-    const int64_t* retrieve_next_token,
-    const int64_t* retrieve_next_sibling,
-    int32_t* bitmask_data,
-    int32_t bitmask_size
-);
-
-void ClearDraftTreeSubtree(
-    int32_t current_position,
-    const int64_t* retrieve_next_token,
-    const int64_t* retrieve_next_sibling,
-    int32_t* bitmask_data,
-    int32_t bitmask_size
-) {
-  ClearTokenBitmaskRow(bitmask_data, bitmask_size, current_position);
-  if (retrieve_next_token[current_position] != -1) {
-    ClearDraftTreeSiblingChain(
-        retrieve_next_token[current_position],
-        retrieve_next_token,
-        retrieve_next_sibling,
-        bitmask_data,
-        bitmask_size
-    );
-  }
-}
-
-void ClearDraftTreeSiblingChain(
-    int32_t current_position,
-    const int64_t* retrieve_next_token,
-    const int64_t* retrieve_next_sibling,
-    int32_t* bitmask_data,
-    int32_t bitmask_size
-) {
-  while (current_position != -1) {
-    ClearDraftTreeSubtree(
-        current_position, retrieve_next_token, retrieve_next_sibling, bitmask_data, bitmask_size
-    );
-    current_position = retrieve_next_sibling[current_position];
-  }
-}
-
 bool TraverseDraftTreeRecursive(
     int32_t current_position,
     int32_t parent_position,
@@ -158,23 +116,17 @@ bool TraverseDraftTreeRecursive(
           }
         }
       } else {
-        ClearDraftTreeSubtree(
-            current_position, retrieve_next_token, retrieve_next_sibling, bitmask_data, bitmask_size
-        );
+        ClearTokenBitmaskRow(bitmask_data, bitmask_size, current_position);
       }
 
       if (current_position != 0) {
         matcher.Rollback(1);
       }
     } else {
-      ClearDraftTreeSubtree(
-          current_position, retrieve_next_token, retrieve_next_sibling, bitmask_data, bitmask_size
-      );
+      ClearTokenBitmaskRow(bitmask_data, bitmask_size, current_position);
     }
   } else {
-    ClearDraftTreeSubtree(
-        current_position, retrieve_next_token, retrieve_next_sibling, bitmask_data, bitmask_size
-    );
+    ClearTokenBitmaskRow(bitmask_data, bitmask_size, current_position);
   }
 
   if (retrieve_next_sibling[current_position] != -1) {

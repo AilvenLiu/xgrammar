@@ -70,8 +70,8 @@ def test_traverse_draft_tree_with_siblings(compiled_grammar):
     assert bitmask[0].any(), "Root position bitmask should be non-zero"
 
 
-def test_traverse_draft_tree_rejected_subtree(compiled_grammar):
-    """Rejected nodes and their descendants should have zero bitmasks."""
+def test_traverse_draft_tree_rejected_node(compiled_grammar):
+    """Rejected nodes should have zero bitmasks."""
     rejected_tree = (
         torch.tensor([1, 2, -1], dtype=torch.int64),
         torch.tensor([-1, -1, -1], dtype=torch.int64),
@@ -83,7 +83,6 @@ def test_traverse_draft_tree_rejected_subtree(compiled_grammar):
     assert result is True
     assert bitmask[0].any(), "Root position bitmask should be non-zero"
     assert not bitmask[1].any(), "Rejected node bitmask should be zero"
-    assert not bitmask[2].any(), "Rejected descendant bitmask should be zero"
 
 
 def test_traverse_draft_tree_invalid_token_with_sibling(compiled_grammar):
@@ -99,12 +98,11 @@ def test_traverse_draft_tree_invalid_token_with_sibling(compiled_grammar):
     assert result is True
     assert bitmask[0].any(), "Root position bitmask should be non-zero"
     assert not bitmask[1].any(), "Invalid token node bitmask should be zero"
-    assert not bitmask[2].any(), "Invalid token descendant bitmask should be zero"
     assert bitmask[3].any(), "Valid sibling bitmask should be computed"
 
 
-def test_traverse_draft_tree_terminated_subtree():
-    """Terminated nodes and their descendants should have zero bitmasks."""
+def test_traverse_draft_tree_terminated_node():
+    """Terminated nodes should have zero bitmasks."""
     grammar = xgr.Grammar.from_ebnf('root ::= "a"')
     tokenizer_info = xgr.TokenizerInfo(["a", "b"], vocab_size=2, stop_token_ids=[])
     compiler = xgr.GrammarCompiler(tokenizer_info)
@@ -122,7 +120,6 @@ def test_traverse_draft_tree_terminated_subtree():
     assert result is True
     assert bitmask[0].any(), "Root position bitmask should be non-zero"
     assert not bitmask[1].any(), "Terminated node bitmask should be zero"
-    assert not bitmask[2].any(), "Terminated descendant bitmask should be zero"
 
 
 def test_old_traverse_draft_tree(compiled_grammar):
