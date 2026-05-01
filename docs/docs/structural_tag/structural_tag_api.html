@@ -192,9 +192,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#force-exactly-one-tool-call">Force Exactly One Tool Call</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mix-reasoning-free-text-and-tool-calls">Mix Reasoning, Free Text, and Tool Calls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#token-level-delimiters">Token-level Delimiters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#built-in-model-styles">Built-in Model Styles</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-model-styles">Built-in Model Styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mapping-to-openai-tool-calling-options">Mapping to OpenAI Tool Calling Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
 </ul>
@@ -1363,20 +1363,13 @@ Combine <code class="docutils literal notranslate"><span class="pre">tag</span><
 </pre></div>
 </div>
 </section>
-<section id="built-in-model-styles">
-<h3>Built-in Model Styles<a class="headerlink" href="#built-in-model-styles" title="Permalink to this heading">¶</a></h3>
-<p>If you only need a standard tool-calling layout for a supported model family, prefer the built-in
-helper instead of hand-writing every wrapper:</p>
-<ul class="simple">
-<li><p>Llama / Gemma-style text wrappers</p></li>
-<li><p>Qwen and Qwen Coder variants</p></li>
-<li><p>Kimi</p></li>
-<li><p>DeepSeek variants</p></li>
-<li><p>Harmony</p></li>
-<li><p>MiniMax</p></li>
-</ul>
-<p>See <a class="reference internal" href="tool_calling_and_reasoning.html"><span class="doc std std-doc">Tool Calling and Reasoning</span></a> for <code class="docutils literal notranslate"><span class="pre">get_model_structural_tag</span></code> and the list of supported models.</p>
 </section>
+<section id="built-in-model-styles">
+<h2>Built-in Model Styles<a class="headerlink" href="#built-in-model-styles" title="Permalink to this heading">¶</a></h2>
+<p>If you only need a standard tool-calling layout for a supported model family, prefer the built-in
+helper instead of hand-writing every wrapper.</p>
+<p>Common examples include OpenAI Harmony response format, Llama, Qwen, Kimi, DeepSeek, and others.</p>
+<p>See <a class="reference internal" href="tool_calling_and_reasoning.html"><span class="doc std std-doc">Tool Calling and Reasoning</span></a> for <code class="docutils literal notranslate"><span class="pre">get_model_structural_tag</span></code> and the list of supported models.</p>
 </section>
 <section id="mapping-to-openai-tool-calling-options">
 <h2>Mapping to OpenAI Tool Calling Options<a class="headerlink" href="#mapping-to-openai-tool-calling-options" title="Permalink to this heading">¶</a></h2>
