@@ -374,13 +374,8 @@ class GrammarMatcher(XGRObject):
         completed : bool
             True if the traversal completed successfully, False if it timed out.
         """
-        return _core.testing._traverse_draft_tree(
-            retrieve_next_token,
-            retrieve_next_sibling,
-            draft_tokens,
-            self._handle,
-            token_bitmask,
-            time_threshold,
+        return self._handle.traverse_draft_tree(
+            retrieve_next_token, retrieve_next_sibling, draft_tokens, token_bitmask, time_threshold
         )
 
     def find_jump_forward_string(self) -> str:
