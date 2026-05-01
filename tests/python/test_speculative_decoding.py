@@ -164,6 +164,30 @@ def test_traverse_draft_tree_shape_assertion(compiled_grammar):
             bitmask,
         )
 
+    # Wrong rank for token_bitmask
+    with pytest.raises(RuntimeError):
+        matcher.traverse_draft_tree(
+            retrieve_next_token,
+            torch.tensor([-1, -1, -1], dtype=torch.int64),
+            draft_tokens,
+            torch.full((bitmask.shape[1],), -1, dtype=torch.int32),
+        )
+
+    # Wrong batch size for token_bitmask
+    with pytest.raises(RuntimeError):
+        matcher.traverse_draft_tree(
+            retrieve_next_token,
+            torch.tensor([-1, -1, -1], dtype=torch.int64),
+            draft_tokens,
+            allocate_token_bitmask(2, VOCAB_SIZE),
+        )
+
+    # Root should not have siblings
+    with pytest.raises(RuntimeError):
+        matcher.traverse_draft_tree(
+            retrieve_next_token, torch.tensor([1, -1, -1], dtype=torch.int64), draft_tokens, bitmask
+        )
+
 
 # ── Timeout tests ────────────────────────────────────────────────────────────
 
