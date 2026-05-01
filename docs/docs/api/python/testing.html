@@ -359,7 +359,7 @@ change. Don’t use them in production.</p>
 <td><p>Convert GLM XML tool calling schema to EBNF.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.testing._traverse_draft_tree" title="xgrammar.testing._traverse_draft_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_traverse_draft_tree</span></code></a>(retrieve_next_token, ...)</p></td>
-<td><p>Traverse the tree constructed by the draft model to generate the logits mask.</p></td>
+<td><p>Backward-compatible wrapper for <code class="xref py py-meth docutils literal notranslate"><span class="pre">GrammarMatcher.traverse_draft_tree()</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -645,29 +645,8 @@ process.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="xgrammar.testing._traverse_draft_tree">
 <span class="sig-prename descclassname"><span class="pre">xgrammar.testing.</span></span><span class="sig-name descname"><span class="pre">_traverse_draft_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieve_next_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieve_next_sibling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">draft_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">matcher</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="grammar_matcher.html#xgrammar.GrammarMatcher" title="xgrammar.matcher.GrammarMatcher"><span class="pre">GrammarMatcher</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocate_token_bitmask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/xgrammar/testing.html#_traverse_draft_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgrammar.testing._traverse_draft_tree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Traverse the tree constructed by the draft model to generate the logits mask.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>retrieve_next_token</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor where retrieve_next_token[i] gives the index of the child node
-of node i, or -1 if no child exists.</p></li>
-<li><p><strong>retrieve_next_sibling</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor where retrieve_next_sibling[i] gives the index of the sibling node
-of node i, or -1 if no sibling exists.</p></li>
-<li><p><strong>draft_tokens</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor of draft token ids at each position in the tree.</p></li>
-<li><p><strong>matcher</strong> (<a class="reference internal" href="grammar_matcher.html#xgrammar.GrammarMatcher" title="xgrammar.GrammarMatcher"><em>GrammarMatcher</em></a>) – The grammar matcher to use for validation.</p></li>
-<li><p><strong>allocate_token_bitmask</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 2D int32 tensor (num_nodes x bitmask_size) to store the generated bitmasks.</p></li>
-<li><p><strong>time_threshold</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Maximum allowed time in seconds for the DFS traversal. If the traversal
-exceeds this threshold, it returns False. A value &lt;= 0 disables the timeout
-(default: -1.0).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the traversal completed successfully, False if it timed out.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
+<dd><p>Backward-compatible wrapper for <code class="xref py py-meth docutils literal notranslate"><span class="pre">GrammarMatcher.traverse_draft_tree()</span></code>.</p>
+<p>Prefer <a class="reference internal" href="grammar_matcher.html#xgrammar.GrammarMatcher.traverse_draft_tree" title="xgrammar.GrammarMatcher.traverse_draft_tree"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xgrammar.GrammarMatcher.traverse_draft_tree()</span></code></a> in new code.</p>
 </dd></dl>
 
 <dl class="py class">

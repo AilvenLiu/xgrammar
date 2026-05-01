@@ -178,6 +178,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.accept_token"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.accept_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.accept_string"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.accept_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.fill_next_token_bitmask"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.fill_next_token_bitmask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.traverse_draft_tree"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.traverse_draft_tree()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.find_jump_forward_string"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.find_jump_forward_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.rollback"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.rollback()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xgrammar.GrammarMatcher.is_terminated"><code class="docutils literal notranslate"><span class="pre">GrammarMatcher.is_terminated()</span></code></a></li>
@@ -322,22 +323,25 @@ with optimizations specific to LLM token mask generation.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.fill_next_token_bitmask" title="xgrammar.GrammarMatcher.fill_next_token_bitmask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_next_token_bitmask</span></code></a>(bitmask[, index, ...])</p></td>
 <td><p>Fill the bitmask for the next token prediction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.find_jump_forward_string" title="xgrammar.GrammarMatcher.find_jump_forward_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_jump_forward_string</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.traverse_draft_tree" title="xgrammar.GrammarMatcher.traverse_draft_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">traverse_draft_tree</span></code></a>(retrieve_next_token, ...)</p></td>
+<td><p>Traverse a draft token tree and fill the token bitmask for each node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.find_jump_forward_string" title="xgrammar.GrammarMatcher.find_jump_forward_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_jump_forward_string</span></code></a>()</p></td>
 <td><p>Find the jump-forward string for jump-forward decoding.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.rollback" title="xgrammar.GrammarMatcher.rollback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rollback</span></code></a>([num_tokens])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.rollback" title="xgrammar.GrammarMatcher.rollback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rollback</span></code></a>([num_tokens])</p></td>
 <td><p>Rollback the matcher to a previous state by several tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.is_terminated" title="xgrammar.GrammarMatcher.is_terminated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_terminated</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.is_terminated" title="xgrammar.GrammarMatcher.is_terminated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_terminated</span></code></a>()</p></td>
 <td><p>Check if the matcher has terminated.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.is_completed" title="xgrammar.GrammarMatcher.is_completed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_completed</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.is_completed" title="xgrammar.GrammarMatcher.is_completed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_completed</span></code></a>()</p></td>
 <td><p>Check if the input accepted so far forms a complete valid string according to the grammar.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.reset" title="xgrammar.GrammarMatcher.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.reset" title="xgrammar.GrammarMatcher.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
 <td><p>Reset the matcher to the initial state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.fork" title="xgrammar.GrammarMatcher.fork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fork</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xgrammar.GrammarMatcher.fork" title="xgrammar.GrammarMatcher.fork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fork</span></code></a>()</p></td>
 <td><p>Fork the matcher.</p></td>
 </tr>
 </tbody>
@@ -453,6 +457,33 @@ this means the bitmask is already all-true, so no need to apply it.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.12/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><strong>RuntimeError</strong></a> – If the bitmask is invalid (not on CPU, not int32, shape mismatch).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xgrammar.GrammarMatcher.traverse_draft_tree">
+<span class="sig-name descname"><span class="pre">traverse_draft_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieve_next_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieve_next_sibling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">draft_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_bitmask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/xgrammar/matcher.html#GrammarMatcher.traverse_draft_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgrammar.GrammarMatcher.traverse_draft_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Traverse a draft token tree and fill the token bitmask for each node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>retrieve_next_token</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor where retrieve_next_token[i] gives the index of the child node
+of node i, or -1 if no child exists.</p></li>
+<li><p><strong>retrieve_next_sibling</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor where retrieve_next_sibling[i] gives the index of the sibling node
+of node i, or -1 if no sibling exists.</p></li>
+<li><p><strong>draft_tokens</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 1D int64 tensor of draft token ids at each node.</p></li>
+<li><p><strong>token_bitmask</strong> (<a class="reference external" href="https://docs.pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><em>torch.Tensor</em></a>) – 2D int32 tensor (num_nodes x bitmask_size) to store the generated bitmasks.</p></li>
+<li><p><strong>time_threshold</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Maximum allowed time in seconds for the traversal. If the traversal
+exceeds this threshold, it returns False. A value &lt;= 0 disables the timeout
+(default: -1.0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>completed</strong> – True if the traversal completed successfully, False if it timed out.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
