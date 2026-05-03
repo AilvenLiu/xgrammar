@@ -1177,11 +1177,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        A structural tag template.</span>
 <span class="sd">        This format is used by Kimi-K2 and other models that follow the same style.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">TOOL_CALL_BEGIN_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_call_begin|&gt;functions.&quot;</span>
+    <span class="n">TOOL_CALL_BEGIN</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_call_begin|&gt;&quot;</span>
+    <span class="n">TOOL_CALL_BEGIN_PREFIX</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">TOOL_CALL_BEGIN</span><span class="si">}</span><span class="s2">functions.&quot;</span>
     <span class="n">TOOL_CALL_SUFFIX</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span>
     <span class="n">TOOL_CALL_ARGUMENT_BEGIN</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_call_argument_begin|&gt;&quot;</span>
     <span class="n">TOOL_CALL_END</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_call_end|&gt;&quot;</span>
-    <span class="n">TOOL_CALL_TRIGGER</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_call_begin|&gt;&quot;</span>
     <span class="n">TOOL_CALLS_SECTION_BEGIN</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_calls_section_begin|&gt;&quot;</span>
     <span class="n">TOOL_CALLS_SECTION_END</span> <span class="o">=</span> <span class="s2">&quot;&lt;|tool_calls_section_end|&gt;&quot;</span>
     <span class="n">THINK_TAG_END</span> <span class="o">=</span> <span class="s2">&quot;&lt;/think&gt;&quot;</span>
@@ -1210,8 +1210,14 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">inner_tool_calls</span> <span class="o">=</span> <span class="n">TagsWithSeparatorFormat</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">at_least_one</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">tool_calls</span> <span class="o">=</span> <span class="n">TagFormat</span><span class="p">(</span>
+                <span class="n">begin</span><span class="o">=</span><span class="n">TOOL_CALLS_SECTION_BEGIN</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">inner_tool_calls</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">TOOL_CALLS_SECTION_END</span>
+            <span class="p">)</span>
             <span class="n">suffix_tag</span> <span class="o">=</span> <span class="n">TriggeredTagsFormat</span><span class="p">(</span>
-                <span class="n">triggers</span><span class="o">=</span><span class="p">[</span><span class="n">TOOL_CALL_TRIGGER</span><span class="p">],</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="n">THINK_EXCLUDE_TOKENS</span>
+                <span class="n">triggers</span><span class="o">=</span><span class="p">[</span><span class="n">TOOL_CALLS_SECTION_BEGIN</span><span class="p">],</span>
+                <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">tool_calls</span><span class="p">],</span>
+                <span class="n">excludes</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">THINK_EXCLUDE_TOKENS</span><span class="p">,</span> <span class="n">TOOL_CALL_BEGIN</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">suffix_tag</span> <span class="o">=</span> <span class="n">AnyTextFormat</span><span class="p">(</span><span class="n">excludes</span><span class="o">=</span><span class="n">THINK_EXCLUDE_TOKENS</span><span class="p">)</span>
